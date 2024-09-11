@@ -9,5 +9,5 @@ return [
     */
 
     'general_error' => 'Error occurred.',
-    'validation_error' => 'Validation Error.',
+    'validation_error' => 'Validation error.',
 ];
