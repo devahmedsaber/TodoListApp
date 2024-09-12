@@ -23,6 +23,7 @@ class TodoFactory extends Factory
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'image' => $this->faker->imageUrl(),
+            'status' => $this->faker->randomElement(['completed', 'uncompleted']),
             'created_at' => now(),
             'updated_at' => now(),
         ];

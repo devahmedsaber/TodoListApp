@@ -8,12 +8,18 @@ use App\Exceptions\GeneralException;
 use App\Exceptions\ModelNotFound;
 use App\Http\Requests\Todo\CreateTodoRequest;
 use App\Http\Requests\Todo\UpdateTodoRequest;
+use App\Http\Requests\Todo\UpdateTodoStatusRequest;
 use App\Models\Todo;
 use Exception;
 use Illuminate\Http\Request;
 
 class TodoRepository
 {
+    /**
+     * Todos model instance.
+     *
+     * @var Todo $todo
+     */
     protected $todo;
 
     /**
@@ -40,13 +46,13 @@ class TodoRepository
      *
      * @param string $id
      * @return mixed
-     * @throws GeneralException|ModelNotFound|Exception
+     * @throws ModelNotFound|GeneralException|Exception
      */
     public function showTodo(string $id): mixed
     {
         try {
             $todo = $this->todo->find($id);
-            if (!$todo) {
+            if (! $todo) {
                 throw new ModelNotFound(__('todos.not_found'));
             }
             return $todo;
@@ -73,8 +79,7 @@ class TodoRepository
                 $this->todo->image = $request->image->store('todos', 'public');
             }
             $this->todo->save();
-            // Send email notification to the user using event.
-            event(new TodoCreated($this->todo));
+            event(new TodoCreated($this->todo)); // Send email notification to the user with todo details.
             return $this->todo;
         } catch (GeneralException $ex) {
             throw $ex;
@@ -89,25 +94,53 @@ class TodoRepository
      * @param UpdateTodoRequest $request
      * @param string $id
      * @return mixed
-     * @throws GeneralException|ModelNotFound|Exception
+     * @throws ModelNotFound|GeneralException|Exception
      */
     public function updateTodo(UpdateTodoRequest $request, string $id): mixed
     {
         try {
             $todo = $this->todo->find($id);
-            if (!$todo) {
+            if (! $todo) {
                 throw new ModelNotFound(__('todos.not_found'));
             }
             $todo->title = $request->title;
             $todo->description = $request->description;
+            $todo->status = $request->status;
             if (! is_null(request()->file('image'))) {
+                if ($todo->image && file_exists(public_path('storage/'.$todo->image))) {
+                    unlink(public_path('storage/'.$todo->image));
+                }
                 $todo->image = $request->image->store('todos', 'public');
             }
             $todo->save();
-            // Send email notification to the user using event.
-            event(new TodoUpdated($todo));
+            event(new TodoUpdated($todo)); // Send email notification to the user with todo details.
             return $todo;
-        } catch (GeneralException|ModelNotFound $ex) {
+        } catch (ModelNotFound|GeneralException $ex) {
+            throw $ex;
+        } catch (Exception $ex) {
+            throw new GeneralException();
+        }
+    }
+
+    /**
+     * Update a todo status.
+     *
+     * @param UpdateTodoStatusRequest $request
+     * @param string $id
+     * @return mixed
+     * @throws ModelNotFound|GeneralException|Exception
+     */
+    public function updateTodoStatus(UpdateTodoStatusRequest $request, string $id): mixed
+    {
+        try {
+            $todo = $this->todo->find($id);
+            if (! $todo) {
+                throw new ModelNotFound(__('todos.not_found'));
+            }
+            $todo->status = $request->status;
+            $todo->save();
+            return $todo;
+        } catch (ModelNotFound|GeneralException $ex) {
             throw $ex;
         } catch (Exception $ex) {
             throw new GeneralException();
@@ -119,13 +152,13 @@ class TodoRepository
      *
      * @param string $id
      * @return mixed
-     * @throws GeneralException|ModelNotFound|Exception
+     * @throws ModelNotFound|GeneralException|Exception
      */
     public function deleteTodo(string $id): void
     {
         try {
             $todo = $this->todo->find($id);
-            if (!$todo) {
+            if (! $todo) {
                 throw new ModelNotFound(__('todos.not_found'));
             }
             $todo->delete();

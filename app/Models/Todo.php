@@ -13,10 +13,9 @@ class Todo extends Model
     protected $fillable = [
         'title',
         'description',
+        'status',
         'image',
     ];
-
-    public $timestamps = true;
 
     public function scopeSearch(Builder $query, $searchKey): Builder
     {

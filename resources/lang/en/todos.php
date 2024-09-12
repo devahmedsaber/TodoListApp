@@ -13,4 +13,5 @@ return [
     'created' => 'Todo created.',
     'updated' => 'Todo updated.',
     'deleted' => 'Todo deleted.',
+    'status_updated' => 'Todo status updated.',
 ];

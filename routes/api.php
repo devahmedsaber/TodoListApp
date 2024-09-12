@@ -23,22 +23,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Auth Routes
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'auth'
+    'prefix' => 'auth',
+    'as' => 'auth.'
 ], function () {
-    Route::post('login', [AuthController::class, 'login']);
-    Route::post('register', [AuthController::class, 'register']);
-    Route::get('profile', [AuthController::class, 'profile']);
-    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('login', [AuthController::class, 'login'])->name('login');
+    Route::post('register', [AuthController::class, 'register'])->name('register');
+    Route::get('profile', [AuthController::class, 'profile'])->name('profile');
+    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 });
 
 // Todos Routes
 Route::group([
     'middleware' => 'api',
-    'prefix' => 'todos'
+    'prefix' => 'todos',
+    'as' => 'todos.'
 ], function () {
-    Route::get('/', [TodoController::class, 'index']);
-    Route::get('/{id}', [TodoController::class, 'show']);
-    Route::post('/', [TodoController::class, 'store']);
-    Route::post('/{id}', [TodoController::class, 'update']);
-    Route::delete('/{id}', [TodoController::class, 'destroy']);
+    Route::get('/', [TodoController::class, 'index'])->name('index');
+    Route::get('/{id}', [TodoController::class, 'show'])->name('show');
+    Route::post('/', [TodoController::class, 'store'])->name('store');
+    Route::post('/{id}', [TodoController::class, 'update'])->name('update');
+    Route::put('/{id}/status', [TodoController::class, 'updateStatus'])->name('updateStatus');
+    Route::delete('/{id}', [TodoController::class, 'destroy'])->name('destroy');
 });

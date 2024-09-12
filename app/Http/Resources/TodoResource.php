@@ -20,6 +20,7 @@ class TodoResource extends JsonResource
             'title' => $this->title,
             'description' => $this->description,
             'image' => $this->image,
+            'status' => $this->status === 'completed' ? 'Completed' : 'Uncompleted',
             'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }

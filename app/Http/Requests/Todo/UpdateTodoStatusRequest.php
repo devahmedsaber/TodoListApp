@@ -4,7 +4,7 @@ namespace App\Http\Requests\Todo;
 
 use App\Http\Requests\ApiRequest;
 
-class UpdateTodoRequest extends ApiRequest
+class UpdateTodoStatusRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,7 @@ class UpdateTodoRequest extends ApiRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'status' => 'required|string|in:completed,uncompleted',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'status' => 'required|in:completed,uncompleted',
         ];
     }
 }

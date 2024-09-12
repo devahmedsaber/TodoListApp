@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Todo\CreateTodoRequest;
 use App\Http\Requests\Todo\UpdateTodoRequest;
+use App\Http\Requests\Todo\UpdateTodoStatusRequest;
 use App\Repositories\TodoRepository;
 use Exception;
 use Illuminate\Http\Request;
@@ -87,6 +88,23 @@ class TodoService
     {
         try {
             return $this->todoRepository->updateTodo($request, $id);
+        } catch (Exception $ex) {
+            throw $ex;
+        }
+    }
+
+    /**
+     * Update a todo status.
+     *
+     * @param UpdateTodoStatusRequest $request
+     * @param string $id
+     * @return mixed
+     * @throws Exception
+     */
+    public function updateStatus(UpdateTodoStatusRequest $request, string $id): mixed
+    {
+        try {
+            return $this->todoRepository->updateTodoStatus($request, $id);
         } catch (Exception $ex) {
             throw $ex;
         }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Todo\CreateTodoRequest;
 use App\Http\Requests\Todo\UpdateTodoRequest;
+use App\Http\Requests\Todo\UpdateTodoStatusRequest;
 use App\Http\Resources\TodoCollectionResource;
 use App\Http\Resources\TodoResource;
 use App\Services\TodoService;
@@ -24,7 +25,7 @@ class TodoController extends Controller
     protected TodoService $todoService;
 
     /**
-     * Auth controller constructor.
+     * Todos controller constructor.
      *
      * @return void
      */
@@ -35,7 +36,7 @@ class TodoController extends Controller
     }
 
     /**
-     * Get all todos.
+     * Retrieve a list of todos based on the request.
      *
      * @param Request $request
      * @return JsonResponse
@@ -49,14 +50,13 @@ class TodoController extends Controller
     }
 
     /**
-     * Get a todo.
+     * Retrieve a todo based on id.
      *
-     * @param Request $request
      * @param string $id
      * @return JsonResponse
      * @throws Exception
      */
-    public function show(Request $request, string $id): JsonResponse
+    public function show(string $id): JsonResponse
     {
         $todo = $this->todoService->show($id);
 
@@ -90,6 +90,21 @@ class TodoController extends Controller
         $todo = $this->todoService->update($request, $id);
 
         return $this->success(__('todos.updated'), new TodoResource($todo));
+    }
+
+    /**
+     * Update a todo status.
+     *
+     * @param UpdateTodoStatusRequest $request
+     * @param string $id
+     * @return JsonResponse
+     * @throws Exception
+     */
+    public function updateStatus(UpdateTodoStatusRequest $request, string $id): JsonResponse
+    {
+        $todo = $this->todoService->updateStatus($request, $id);
+
+        return $this->success(__('todos.status_updated'), new TodoResource($todo));
     }
 
     /**
