@@ -17,7 +17,7 @@ class AuthService
     protected AuthRepository $authRepository;
 
     /**
-     * auth service constructor.
+     * Auth service constructor.
      *
      * @return void
      */

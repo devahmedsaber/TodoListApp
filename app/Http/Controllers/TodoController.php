@@ -31,6 +31,7 @@ class TodoController extends Controller
      */
     public function __construct()
     {
+        // Protect all routes.
         $this->middleware('auth:api');
         $this->todoService = new TodoService();
     }

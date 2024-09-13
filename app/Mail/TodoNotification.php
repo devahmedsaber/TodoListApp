@@ -34,6 +34,7 @@ class TodoNotification extends Mailable
      */
     public function build()
     {
+        // Set the subject depending on the action.
         $subject = $this->action == 'created' ? 'New Todo Created' : 'Todo Updated';
 
         return $this->subject($subject)

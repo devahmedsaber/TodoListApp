@@ -18,8 +18,10 @@ class AuthRepository
      */
     public function login(UserLoginRequest $request): mixed
     {
+        // Get user email and password only  from the request.
         $credentials = $request->only(['email', 'password']);
 
+        // Check if the user credentials not correct.
         if (! auth()->attempt($credentials)) {
             throw new GeneralException(__('auth.failed'), 401);
         }
@@ -36,12 +38,14 @@ class AuthRepository
      */
     public function register(UserRegisterRequest $request): mixed
     {
+        // Create a new user.
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
 
+        // Login the user.
         auth()->login($user);
 
         return $user;
