@@ -39,27 +39,28 @@ Before running the project, ensure you have the following installed:
           - DB_CONNECTION=mysql
           - DB_HOST=127.0.0.1
           - DB_PORT=3306
-          - DB_DATABASE=your_database_name
-          - DB_USERNAME=your_database_user
+          - DB_DATABASE=your_database_name => like (todo_list_app)
+          - DB_USERNAME=your_database_user => like (root)
           - DB_PASSWORD=your_database_password
       - Update mailtrap configuration (for email notifications):
           - MAIL_MAILER=smtp
-          -  MAIL_HOST=smtp.mailtrap.io
-          -  MAIL_PORT=2525
-          -  MAIL_USERNAME=your_mailtrap_username
-          -  MAIL_PASSWORD=your_mailtrap_password
-          -  MAIL_ENCRYPTION=null
-4. Generate the application key:
+          -  MAIL_HOST=sandbox.smtp.mailtrap.io
+          -  MAIL_PORT=587
+          -  MAIL_USERNAME=your_mailtrap_username => like (a4e2c450d4ac99)
+          -  MAIL_PASSWORD=your_mailtrap_password => like (1429a993798a1d)
+          -  MAIL_ENCRYPTION=tls
+          -  MAIL_FROM_ADDRESS="devahmedsaber@gmail.com"
+4. Generate the application key by running this command bash:
     - php artisan key:generate
-5. Generate the JWT secret (for authentication):
+5. Generate the JWT secret (for authentication) by running this command bash:
     - php artisan jwt:secret
-6. Run the database migrations:
+6. Run the database migrations by running this command bash:
     - php artisan migrate
-7. Run seeders (for seed data like 1000 todos):
+7. Run seeders (for seed data like 1000 todos) by running this command bash:
     - php artisan db:seed
-8. Start the development server:
+8. Start the development server by running this command bash:
     - php artisan serve
-9. Access the application:
+9. Access the application by running this command bash:
     - Open your browser and navigate to `http://localhost:8000`.
 9. Running unit tests:
     - If you want to run all tests run this command (php artisan test).
@@ -68,12 +69,12 @@ Before running the project, ensure you have the following installed:
 ## Some Guidelines
 1. API Documentation:
     - You can view the API documentation (Postman) by visiting the following link:
-        `https://documenter.getpostman.com/view/27286122/2sAXqng5fV`
+        https://documenter.getpostman.com/view/27286122/2sAXqng5fV
     - Or you can add the todo list app collection to your postman collections via this link:
-        `https://api.postman.com/collections/27286122-c797b74c-c8b6-4cbb-99eb-3eda426a3107?access_key=PMAT-01J7PM4KBJ9PEGMFC50HV6XGM1`
+        https://api.postman.com/collections/27286122-c797b74c-c8b6-4cbb-99eb-3eda426a3107?access_key=PMAT-01J7PM4KBJ9PEGMFC50HV6XGM1
     - Or you can add the todo list app collection to your postman collections by importing it manually.
     - The todo list app collection exists in root directory with project files called (TodoListApp.postman_collection).
 2. Email Notifications:
-  The app uses Mailtrap to simulate sending email notifications. Ensure your Mailtrap credentials are correctly configured in the .env file. Emails will be logged in your Mailtrap account.
+    - The app uses Mailtrap to simulate sending email notifications. Ensure your Mailtrap credentials are correctly configured in the .env file. Emails will be logged in your Mailtrap account.
 3. JWT Authentication:
-  All API requests are secured with JWT authentication. Make sure to authenticate by obtaining a token via the /api/auth/login endpoint and including it in your requests.
+    - All API requests are secured with JWT authentication. Make sure to authenticate by obtaining a token via the /api/auth/login endpoint and including it in your requests.
