@@ -74,6 +74,7 @@ Before running the project, ensure you have the following installed:
         https://api.postman.com/collections/27286122-c797b74c-c8b6-4cbb-99eb-3eda426a3107?access_key=PMAT-01J7PM4KBJ9PEGMFC50HV6XGM1
     - Or you can add the todo list app collection to your postman collections by importing it manually.
     - The todo list app collection exists in root directory with project files called (TodoListApp.postman_collection).
+    - Change `local` variable value from variables tab of postman collection with your application serve link like `http://localhost:8000`.
 2. Email Notifications:
     - The app uses Mailtrap to simulate sending email notifications. Ensure your Mailtrap credentials are correctly configured in the .env file. Emails will be logged in your Mailtrap account.
 3. JWT Authentication:
