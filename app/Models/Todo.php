@@ -17,7 +17,14 @@ class Todo extends Model
         'image',
     ];
 
-    public function scopeSearch(Builder $query, $searchKey): Builder
+    /**
+     * Scope a query to search todos.
+     *
+     * @param Builder $query
+     * @param string|null $searchKey
+     * @return Builder
+     */
+    public function scopeSearch(Builder $query, ?string $searchKey): Builder
     {
         if ($searchKey) {
             return $query->where(function ($q) use ($searchKey) {

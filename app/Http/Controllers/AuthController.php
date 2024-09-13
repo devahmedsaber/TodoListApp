@@ -29,6 +29,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
+        // Protect all routes except login and register.
         $this->middleware('auth:api', ['except' => ['login', 'register']]);
         $this->authService = new AuthService();
     }

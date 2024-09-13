@@ -24,6 +24,7 @@ class SendTodoUpdatedNotification
      */
     public function handle(TodoUpdated $event): void
     {
+        // Get the authenticated user, then send the mail notification.
         $user = Auth::user();
         if ($user) {
             Mail::to($user->email)->send(new TodoNotification($event->todo, 'updated'));
