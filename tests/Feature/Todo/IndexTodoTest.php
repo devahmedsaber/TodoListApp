@@ -6,6 +6,7 @@ use App\Models\Todo;
 use Carbon\Carbon;
 use Closure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
 use Tests\ExpectedResponse\DataResponse;
 use Tests\ExpectedResponse\ExpectedResponse;
 use Tests\TestCase;
@@ -53,7 +54,7 @@ class IndexTodoTest extends TestCase
                         'id' => 1,
                         'title' => 'Todo 1',
                         'description' => 'Description 1',
-                        'image' => 'image1.jpg',
+                        'image' => UploadedFile::fake()->image('Todo1.jpeg', 1024, 1080),
                         'status' => 'Uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ],
@@ -61,7 +62,7 @@ class IndexTodoTest extends TestCase
                         'id' => 2,
                         'title' => 'Todo 2',
                         'description' => 'Description 2',
-                        'image' => 'image2.jpg',
+                        'image' => UploadedFile::fake()->image('Todo2.jpeg', 1024, 1080),
                         'status' => 'Uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ],
@@ -82,7 +83,7 @@ class IndexTodoTest extends TestCase
                         'id' => 2,
                         'title' => 'Todo 2',
                         'description' => 'Description 2',
-                        'image' => 'image2.jpg',
+                        'image' => UploadedFile::fake()->image('Todo2.jpeg', 1024, 1080),
                         'status' => 'Uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ],
@@ -102,7 +103,7 @@ class IndexTodoTest extends TestCase
                         'id' => 1,
                         'title' => 'Todo 1',
                         'description' => 'Description 1',
-                        'image' => 'image1.jpg',
+                        'image' => UploadedFile::fake()->image('Todo1.jpeg', 1024, 1080),
                         'status' => 'Uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ],
@@ -125,7 +126,7 @@ class IndexTodoTest extends TestCase
                         'id' => 1,
                         'title' => 'Todo 1',
                         'description' => 'Description 1',
-                        'image' => 'image1.jpg',
+                        'image' => UploadedFile::fake()->image('Todo1.jpeg', 1024, 1080),
                         'status' => 'uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
@@ -133,7 +134,7 @@ class IndexTodoTest extends TestCase
                         'id' => 2,
                         'title' => 'Todo 2',
                         'description' => 'Description 2',
-                        'image' => 'image2.jpg',
+                        'image' => UploadedFile::fake()->image('Todo2.jpeg', 1024, 1080),
                         'status' => 'uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
@@ -149,7 +150,7 @@ class IndexTodoTest extends TestCase
                         'id' => 2,
                         'title' => 'Todo 2',
                         'description' => 'Description 2',
-                        'image' => 'image2.jpg',
+                        'image' => UploadedFile::fake()->image('Todo2.jpeg', 1024, 1080),
                         'status' => 'uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
@@ -166,7 +167,7 @@ class IndexTodoTest extends TestCase
                         'id' => 1,
                         'title' => 'Todo 1',
                         'description' => 'Description 1',
-                        'image' => 'image1.jpg',
+                        'image' => UploadedFile::fake()->image('Todo1.jpeg', 1024, 1080),
                         'status' => 'uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
@@ -174,7 +175,7 @@ class IndexTodoTest extends TestCase
                         'id' => 2,
                         'title' => 'Todo 2',
                         'description' => 'Description 2',
-                        'image' => 'image2.jpg',
+                        'image' => UploadedFile::fake()->image('Todo2.jpeg', 1024, 1080),
                         'status' => 'uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);

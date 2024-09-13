@@ -8,27 +8,26 @@ use Closure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\ExpectedResponse\DataResponse;
-use Tests\ExpectedResponse\ExpectedResponse;
+use Tests\ExpectedResponse\ResourceNotFoundResponse;
 use Tests\TestCase;
 
-class PaginationTodoTest extends TestCase
+class ShowTodoTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @dataProvider paginationTodoDataProvider */
-    public function testPaginationTodo(array $data, Closure $responseFactory, Closure $preDefinedFactory)
+    /** @dataProvider showTodoDataProvider */
+    public function testShowOption(int $id, Closure $responseFactory, Closure $preDefinedFactory)
     {
         $this->withoutMiddleware();
 
         $preDefinedFactory();
 
-        $url = route('todos.index');
+        $url = route('todos.show', ['id' => $id]);
 
         // Call Endpoints
         $response = $this->json(
             'GET',
             $url,
-            $data,
         );
 
         /** @var ExpectedResponse $expected */
@@ -36,7 +35,7 @@ class PaginationTodoTest extends TestCase
         $expected->assert($response);
     }
 
-    public static function paginationTodoDataProvider()
+    public static function showTodoDataProvider()
     {
         $commonStructure = [
             'id',
@@ -47,9 +46,9 @@ class PaginationTodoTest extends TestCase
             'created_at',
         ];
 
-        $paginatedTodosSuccessfullyResponse = function () use ($commonStructure): DataResponse {
-            return new DataResponse([
-                'data' => [
+        $todosSuccessfullyResponse = function () use ($commonStructure): DataResponse {
+            return new DataResponse(
+                [
                     [
                         'id' => 1,
                         'title' => 'Todo 1',
@@ -59,36 +58,38 @@ class PaginationTodoTest extends TestCase
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ],
                 ],
-                'pagination' => static::getPaginationAttributes(1, 1, 2, 1, 1, 2),
-            ], [
-                'data' => [
-                    $commonStructure,
-                ],
-            ], 'item');
+                $commonStructure,
+                'item'
+            );
+        };
+
+        $notFoundTodoSuccessfullyResponse = function (): ResourceNotFoundResponse {
+            return new ResourceNotFoundResponse();
         };
 
         return [
-            'Paginated Todos Can be Listed Successfully [With Pagination Key]' => [
-                [
-                    'offset' => 1,
-                    'page' => 1,
-                ],
-                $paginatedTodosSuccessfullyResponse,
+            'Todo Can be Showed Successfully' => [
+                1,
+                $todosSuccessfullyResponse,
                 function () {
                     Todo::factory()->create([
                         'id' => 1,
                         'title' => 'Todo 1',
                         'description' => 'Description 1',
                         'image' => UploadedFile::fake()->image('Todo1.jpeg', 1024, 1080),
-                        'status' => 'uncompleted',
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
+                },
+            ],
+            'Todo Not Found When Invalid ID is Sent' => [
+                2,
+                $notFoundTodoSuccessfullyResponse,
+                function () {
                     Todo::factory()->create([
-                        'id' => 2,
-                        'title' => 'Todo 2',
-                        'description' => 'Description 2',
-                        'image' => UploadedFile::fake()->image('Todo2.jpeg', 1024, 1080),
-                        'status' => 'uncompleted',
+                        'id' => 1,
+                        'title' => 'Todo 1',
+                        'description' => 'Description 1',
+                        'image' => UploadedFile::fake()->image('Todo1.jpeg', 1024, 1080),
                         'created_at' => Carbon::now()->toDateTimeString(),
                     ]);
                 },
